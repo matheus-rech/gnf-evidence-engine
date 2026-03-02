@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://globalneuro.org/schemas/study_schema.json",
+  "title": "StudyRecord",
+  "description": "Structured schema for a single clinical study in the GNF evidence base",
+  "type": "object",
+  "required": [
+    "study_id", "title", "authors", "year", "journal",
+    "study_design", "population", "intervention", "comparator",
+    "outcome", "sample_size"
+  ],
+  "properties": {
+    "study_id": {"type": "string", "description": "Unique internal identifier", "minLength": 1},
+    "title": {"type": "string", "description": "Full publication title", "minLength": 1},
+    "authors": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "year": {"type": "integer", "minimum": 1900, "maximum": 2100},
+    "journal": {"type": "string"},
+    "pmid": {"type": ["string", "null"], "pattern": "^[0-9]+$"},
+    "doi": {"type": ["string", "null"]},
+    "study_design": {
+      "type": "string",
+      "enum": ["RCT", "cohort", "cross-sectional", "case-control", "case-series",
+               "systematic-review", "meta-analysis", "other"]
+    },
+    "population": {"type": "string"},
+    "intervention": {"type": "string"},
+    "comparator": {"type": "string"},
+    "outcome": {"type": "string"},
+    "sample_size": {"type": "integer", "minimum": 1},
+    "effect_records": {"type": "array", "items": {"$ref": "effect_record_schema.json"}},
+    "risk_of_bias": {"type": ["object", "null"], "additionalProperties": {"type": "string", "enum": ["low", "some_concerns", "high"]}},
+    "extraction_timestamp": {"type": "string", "format": "date-time"},
+    "provenance_hash": {"type": ["string", "null"]},
+    "abstract": {"type": ["string", "null"]},
+    "full_text_path": {"type": ["string", "null"]},
+    "registration": {"type": ["string", "null"]},
+    "funding": {"type": ["string", "null"]},
+    "tags": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

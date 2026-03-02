@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://globalneuro.org/schemas/extraction_schema.json",
+  "title": "ExtractionOutput",
+  "description": "Schema for the complete output of one extraction pipeline run",
+  "type": "object",
+  "required": ["extraction_id", "timestamp", "source", "records"],
+  "properties": {
+    "extraction_id": {"type": "string"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "source": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {"type": "string", "enum": ["pubmed_search", "pdf", "manual"]},
+        "query": {"type": ["string", "null"]},
+        "date_range": {"type": ["array", "null"], "items": {"type": "string"}, "minItems": 2, "maxItems": 2},
+        "mesh_terms": {"type": ["array", "null"], "items": {"type": "string"}},
+        "study_types": {"type": ["array", "null"], "items": {"type": "string"}},
+        "file_path": {"type": ["string", "null"]}
+      }
+    },
+    "records": {"type": "array", "items": {"$ref": "study_schema.json"}},
+    "n_found": {"type": "integer"},
+    "n_retrieved": {"type": "integer"},
+    "n_parsed": {"type": "integer"},
+    "extractor_version": {"type": "string"},
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "study_id": {"type": "string"},
+          "error": {"type": "string"}
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
